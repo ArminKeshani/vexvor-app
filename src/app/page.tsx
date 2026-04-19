@@ -13,11 +13,11 @@ export default function HomePage() {
   const { initReveal, cleanup } = useScrollReveal()
 
   useEffect(() => {
+    if (introShown) return  // wait until intro is dismissed
     if (!mainRef.current) return
-    // Small delay so DOM is fully rendered
     const id = setTimeout(() => {
       if (mainRef.current) initReveal(mainRef.current)
-    }, 100)
+    }, 300)
     return () => { clearTimeout(id); cleanup() }
   }, [introShown]) // re-init after intro dismisses
 
@@ -63,7 +63,7 @@ export default function HomePage() {
               <h1
                 className="font-display font-black leading-none tracking-tight"
                 style={{
-                  fontSize: 'clamp(3.5rem, 10vw, 9rem)',
+                  fontSize: 'clamp(2.8rem, 8vw, 7.5rem)',
                   lineHeight: 0.92,
                   letterSpacing: '-0.02em',
                 }}

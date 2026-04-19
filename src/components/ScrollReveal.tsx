@@ -4,8 +4,6 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-gsap.registerPlugin(ScrollTrigger)
-
 /* ── Utility: split text into individual character spans ──── */
 export function splitChars(el: HTMLElement) {
   const text = el.textContent ?? ''
@@ -53,6 +51,7 @@ export default function ScrollReveal({
   const wrapRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
     const el = wrapRef.current
     if (!el) return
 
@@ -95,6 +94,7 @@ export function useScrollReveal() {
   const gsapRef = useRef<any>(null)
 
   const initReveal = (container: HTMLElement) => {
+    gsap.registerPlugin(ScrollTrigger)
     gsapRef.current = gsap.context(() => {
       // Sections that fade up
       gsap.utils.toArray<HTMLElement>('.reveal-up', container).forEach((el) => {
