@@ -1,0 +1,388 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── VexVor Design System ───────────────────────────────────── */
+:root {
+  /* Refined luxury gold — metallic, aged, not neon */
+  --gold:       #D4AF37;
+  --gold-dim:   #8A6E1A;
+  --gold-bright:#E8C84A;
+  --gold-glow:  rgba(212,175,55,0.35);
+
+  --obsidian:   #0B0C0E;
+  --steel:      #44474F;
+  --bone:       #FAFAF7;
+  --ember:      #E01814;
+  --bone-dim:   #C4C4C0;
+  --charcoal:   #1A1B1F;
+  --charcoal2:  #141518;
+
+  --font-display: var(--font-unbounded), sans-serif;
+  --font-body:    var(--font-inter), sans-serif;
+}
+
+/* ── Base Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--obsidian);
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ── Custom cursor ──────────────────────────────────────────── */
+.vex-cursor {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+  mix-blend-mode: difference;
+}
+.vex-cursor-ring {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(212,175,55,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+              height 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+              left 0.1s ease,
+              top 0.1s ease;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--obsidian); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* ── Selection ──────────────────────────────────────────────── */
+::selection { background: var(--gold); color: var(--obsidian); }
+
+/* ── Typography Utilities ───────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-body    { font-family: var(--font-body); }
+
+.text-gold     { color: var(--gold); }
+.text-ember    { color: var(--ember); }
+.text-bone     { color: var(--bone); }
+.text-bone-dim { color: var(--bone-dim); }
+.text-steel    { color: var(--steel); }
+
+/* ── Gold Gradient Text ─────────────────────────────────────── */
+.gold-text {
+  background: linear-gradient(135deg, #E8C84A 0%, #D4AF37 40%, #C9A028 70%, #E8C84A 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Section Layouts ────────────────────────────────────────── */
+.section-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ── Gold Divider ───────────────────────────────────────────── */
+.gold-divider {
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto;
+}
+
+/* ── Glow Effects ───────────────────────────────────────────── */
+.gold-glow    { text-shadow: 0 0 60px rgba(212,175,55,0.35), 0 0 120px rgba(212,175,55,0.15); }
+.gold-glow-sm { text-shadow: 0 0 24px rgba(212,175,55,0.25); }
+
+/* ── Card Styles ────────────────────────────────────────────── */
+.vex-card {
+  background: var(--charcoal);
+  border: 1px solid rgba(212,175,55,0.1);
+  border-radius: 1px;
+  transition: border-color 0.5s ease, transform 0.4s ease, box-shadow 0.5s ease;
+}
+.vex-card:hover {
+  border-color: rgba(212,175,55,0.28);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(212,175,55,0.06);
+}
+
+/* ── Button Styles ──────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--gold);
+  color: var(--obsidian);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 1rem 2.4rem;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.btn-primary:hover::after { transform: translateX(100%); }
+.btn-primary:hover {
+  background: var(--gold-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(212,175,55,0.3);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.95rem 2.4rem;
+  border: 1px solid rgba(212,175,55,0.35);
+  cursor: pointer;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  transition: border-color 0.4s ease, background 0.4s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  border-color: var(--gold);
+  background: rgba(212,175,55,0.07);
+  transform: translateY(-2px);
+}
+
+/* ── Input Styles ───────────────────────────────────────────── */
+.vex-input {
+  width: 100%;
+  background: rgba(212,175,55,0.03);
+  border: 1px solid rgba(212,175,55,0.12);
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 1px;
+  outline: none;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.vex-input:focus {
+  border-color: rgba(212,175,55,0.4);
+  background: rgba(212,175,55,0.04);
+}
+.vex-input::placeholder { color: var(--steel); }
+
+/* ── Clerk overrides ────────────────────────────────────────── */
+.cl-rootBox,
+.cl-card {
+  background: var(--charcoal) !important;
+  border: 1px solid rgba(212,175,55,0.12) !important;
+  border-radius: 2px !important;
+  color: var(--bone) !important;
+}
+.cl-headerTitle,
+.cl-headerSubtitle,
+.cl-formFieldLabel,
+.cl-footerActionText { color: var(--bone-dim) !important; }
+.cl-formButtonPrimary {
+  background: var(--gold) !important;
+  color: var(--obsidian) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  border-radius: 1px !important;
+}
+.cl-formButtonPrimary:hover { background: var(--gold-bright) !important; }
+.cl-formFieldInput {
+  background: rgba(212,175,55,0.04) !important;
+  border-color: rgba(212,175,55,0.18) !important;
+  color: var(--bone) !important;
+  border-radius: 1px !important;
+}
+.cl-socialButtonsBlockButton {
+  background: var(--charcoal2) !important;
+  border-color: rgba(212,175,55,0.12) !important;
+  color: var(--bone) !important;
+}
+.cl-footerActionLink { color: var(--gold) !important; }
+.cl-dividerLine { background: rgba(212,175,55,0.1) !important; }
+.cl-dividerText { color: var(--steel) !important; }
+.cl-internal-b3fm6y { display: none !important; }
+
+/* ── Scroll Reveal ──────────────────────────────────────────── */
+/* Elements start invisible; GSAP animates them in */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: opacity, transform;
+}
+.reveal-fade {
+  opacity: 0;
+  will-change: opacity;
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  will-change: opacity, transform;
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  will-change: opacity, transform;
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  will-change: opacity, transform;
+}
+
+/* Char split animation wrapper */
+.char-reveal .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(60%) rotateX(-40deg);
+  transform-origin: 50% 100%;
+  will-change: opacity, transform;
+}
+.char-reveal-word .word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+/* ── Line decorations ───────────────────────────────────────── */
+.vex-line {
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+}
+
+/* ── Horizontal rule ────────────────────────────────────────── */
+.vex-hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
+  margin: 0;
+}
+
+/* ── Section label ──────────────────────────────────────────── */
+.section-label {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-label::before,
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3));
+}
+.section-label::after {
+  background: linear-gradient(270deg, transparent, rgba(212,175,55,0.3));
+}
+
+/* ── Number counter ─────────────────────────────────────────── */
+.stat-counter { font-variant-numeric: tabular-nums; }
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.3); }
+  50%       { box-shadow: 0 0 0 12px rgba(212,175,55,0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(212,175,55,0.1); }
+  50%       { border-color: rgba(212,175,55,0.4); }
+}
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+.animate-fade-up      { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-fade-in      { animation: fadeIn 0.6s ease forwards; }
+.animate-pulse-gold   { animation: pulse-gold 2.5s ease-in-out infinite; }
+.animate-spin-slow    { animation: spin-slow 20s linear infinite; }
+.animate-float        { animation: float 4s ease-in-out infinite; }
+.animate-border-glow  { animation: borderGlow 3s ease-in-out infinite; }
+.animate-scroll-line  { animation: scrollLine 2s ease-in-out infinite; }
+
+/* ── Progress Ring ──────────────────────────────────────────── */
+.progress-ring-track { fill: none; stroke: rgba(212,175,55,0.1); }
+.progress-ring-fill  {
+  fill: none;
+  stroke: var(--gold);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Noise texture overlay ──────────────────────────────────── */
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
