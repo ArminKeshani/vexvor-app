@@ -96,6 +96,11 @@ export function useScrollReveal() {
   const initReveal = (container: HTMLElement) => {
     gsap.registerPlugin(ScrollTrigger)
     gsapRef.current = gsap.context(() => {
+
+      /* ─────────────────────────────────────────────────────
+         VIEWPORT-TRIGGERED REVEALS
+      ───────────────────────────────────────────────────── */
+
       // Sections that fade up
       gsap.utils.toArray<HTMLElement>('.reveal-up', container).forEach((el) => {
         gsap.fromTo(el,
@@ -167,7 +172,7 @@ export function useScrollReveal() {
       // Scale reveals
       gsap.utils.toArray<HTMLElement>('.reveal-scale', container).forEach((el) => {
         gsap.fromTo(el,
-          { opacity: 0, scale: 0.92 },
+          { opacity: 0, scale: 0.93 },
           {
             opacity: 1, scale: 1,
             duration: 1.2,
@@ -200,7 +205,7 @@ export function useScrollReveal() {
         )
       })
 
-      // Word-by-word reveals
+      // Word-by-word viewport reveal (fast, on-enter)
       gsap.utils.toArray<HTMLElement>('.word-reveal', container).forEach((el) => {
         const words = splitWords(el)
         gsap.fromTo(words,
@@ -237,6 +242,113 @@ export function useScrollReveal() {
           }
         )
       })
+
+      /* ─────────────────────────────────────────────────────
+         SCRUB-BASED REVEALS (tied to scroll position)
+      ───────────────────────────────────────────────────── */
+
+      // Scrub fade-up — reveals proportionally as you scroll
+      gsap.utils.toArray<HTMLElement>('.scrub-up', container).forEach((el) => {
+        gsap.fromTo(el,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1, y: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 92%',
+              end: 'top 55%',
+              scrub: 0.8,
+            },
+          }
+        )
+      })
+
+      // Scrub word-by-word text reveal — StringTune-style
+      // Each word climbs up from behind a clip as scroll progresses
+      gsap.utils.toArray<HTMLElement>('.scrub-text', container).forEach((el) => {
+        const words = splitWords(el)
+        gsap.fromTo(words,
+          { opacity: 0, y: '110%' },
+          {
+            opacity: 1, y: '0%',
+            ease: 'none',
+            stagger: 0.03,
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 88%',
+              end: 'top 35%',
+              scrub: 1,
+            },
+          }
+        )
+      })
+
+      // Scrub parallax — elements at different scroll speed (depth illusion)
+      gsap.utils.toArray<HTMLElement>('.parallax-slow', container).forEach((el) => {
+        const depth = parseFloat(el.dataset.depth ?? '0.2')
+        gsap.to(el, {
+          yPercent: -100 * depth,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el.parentElement ?? el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        })
+      })
+
+      // Horizontal scrub — element drifts left as you scroll past
+      gsap.utils.toArray<HTMLElement>('.scrub-left', container).forEach((el) => {
+        gsap.fromTo(el,
+          { opacity: 0, x: 80 },
+          {
+            opacity: 1, x: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 90%',
+              end: 'top 50%',
+              scrub: 0.8,
+            },
+          }
+        )
+      })
+
+      gsap.utils.toArray<HTMLElement>('.scrub-right', container).forEach((el) => {
+        gsap.fromTo(el,
+          { opacity: 0, x: -80 },
+          {
+            opacity: 1, x: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 90%',
+              end: 'top 50%',
+              scrub: 0.8,
+            },
+          }
+        )
+      })
+
+      /* ─────────────────────────────────────────────────────
+         HERO SCROLL EXIT — hero fades/scales as user scrolls away
+      ───────────────────────────────────────────────────── */
+      const heroContent = container.querySelector<HTMLElement>('.hero-content')
+      if (heroContent) {
+        gsap.to(heroContent, {
+          opacity: 0,
+          y: -40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: heroContent,
+            start: 'top top',
+            end: '+=400',
+            scrub: 0.6,
+          },
+        })
+      }
 
     }, container)
   }
